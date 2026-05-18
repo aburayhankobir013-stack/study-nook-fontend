@@ -1,9 +1,7 @@
-
+import LoginForm from "@/components/loginForm/LoginForm";
 
 export default function LogInPage () {
   return (
-    <h1>
-      I am login page!
-    </h1>
+    <LoginForm />
   );
 }
