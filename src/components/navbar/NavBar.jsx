@@ -1,10 +1,10 @@
-
+import NavLink from "../navlink/NavLink";
 
 
 export default function NavBar () {
   return (
-    <h1>
-      I am navbar!
-    </h1>
+   <header className="container mx-auto border">
+      <nav>I am navbar</nav>
+   </header>
   );
 }
