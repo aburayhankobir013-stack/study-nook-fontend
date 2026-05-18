@@ -1,11 +1,16 @@
 "use client";
 
+import { toast } from '@heroui/react';
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 import { Button } from "@heroui/react";
 import { Icon } from "@iconify/react";
+import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaRegImage, FaUser } from "react-icons/fa";
 import { GiOpenBook } from "react-icons/gi";
+import { GoArrowRight } from "react-icons/go";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill, RiResetLeftFill } from "react-icons/ri";
 import { RxEyeOpen } from "react-icons/rx";
@@ -15,6 +20,9 @@ export default function RegisterForm() {
   const { register, handleSubmit, formState, watch, reset } = useForm();
   const { errors } = formState;
   const [isOpen, setIsOpen] = useState(true);
+  const router = useRouter();
+  const [message, setMessage] = useState("Create Account");
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const password = watch("password", "");
 
@@ -38,8 +46,39 @@ export default function RegisterForm() {
     },
   };
 
-  const handleOnSubmit = (formData) => {
-    console.log(formData);
+  const handleOnSubmit = async (formData) => {
+    setIsDisabled(true);
+    const { data, error } = await authClient.signUp.email(
+      {
+        email: formData.email,
+        password: formData.password,
+        name: formData.username,
+        image: formData.image_url,
+      },
+      {
+        onRequest: () => {
+          setMessage("Account creating...");
+        },
+        onSuccess: () => {
+          setMessage("Account Successfully Created!");
+          toast.success("Account Successfully Created!");
+          setTimeout(() => {
+            router.push("/");
+            setMessage("Create Account");
+            setIsDisabled(false);
+          }, 3000);
+        },
+        onError: (ctx) => {
+          setMessage("Something Went Wrong!");
+          toast.danger(ctx.error.message);
+          setTimeout(() => {
+            setMessage("Create Account");
+            setIsDisabled(false);
+          }, 3000);
+        },
+      },
+    );
+    reset();
   };
   return (
     <div className="border min-h-screen container mx-auto flex justify-center items-center bg-slate-200">
@@ -53,7 +92,9 @@ export default function RegisterForm() {
             Start managing your study resources, notes, and library access in
             one place.
           </p>
-          <h1 className="font-bold text-xl xs:text-2xl lg:text-3xl text-green-700">Register Form</h1>
+          <h1 className="font-bold text-xl xs:text-2xl lg:text-3xl text-green-700">
+            Register Form
+          </h1>
         </div>
         <div className="max-w-xs w-full xs:max-w-md p-4 bg-white rounded-xs shadow-xs flex flex-col gap-2">
           <form
@@ -121,7 +162,7 @@ export default function RegisterForm() {
               </label>
               <div className="relative">
                 <input
-                  className="border px-6 py-1 rounded-xs font-semibold outline-green-500 w-full"
+                  className={`border px-6 py-1 rounded-xs font-semibold outline-green-500 w-full ${errors.password && `border-red-500`}`}
                   type={isOpen ? "password" : "text"}
                   id="password"
                   {...register("password", passwordRules)}
@@ -227,11 +268,12 @@ export default function RegisterForm() {
                   onClick={() => reset()}
                 />
               </div>
-              <div className="flex items-center justify-center w-full bg-green-500 px-2 py-1 rounded-xs gap-1 font-bold text-white cursor-pointer">
+              <div className={`flex items-center justify-center w-full bg-green-500 px-2 py-1 rounded-xs gap-1 font-bold text-white cursor-pointer ${isDisabled && `bg-red-500`}`}>
                 <input
                   type="submit"
-                  value="Create Account"
+                  value={message}
                   className="cursor-pointer"
+                  disabled={isDisabled}
                 />
               </div>
             </div>
@@ -239,6 +281,15 @@ export default function RegisterForm() {
           <Button className="w-full rounded-xs" variant="outline">
             <Icon icon="devicon:google" />
             Sign Up With Google
+          </Button>
+          <Button variant="outline" className="rounded-xs w-full">
+            <Link
+              href={"/login"}
+              className="flex items-center gap-2 font-bold text-green-700"
+            >
+              <span>Go To Login Page</span>
+              <GoArrowRight />
+            </Link>
           </Button>
         </div>
       </div>

@@ -1,10 +1,15 @@
 "use client";
 
+import { toast } from '@heroui/react';
+import { authClient } from "@/lib/auth-client";
 import { Button } from "@heroui/react";
 import { Icon } from "@iconify/react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { GiOpenBook } from "react-icons/gi";
+import { GoArrowRight } from "react-icons/go";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill, RiResetLeftFill } from "react-icons/ri";
 import { RxEyeOpen } from "react-icons/rx";
@@ -14,6 +19,9 @@ export default function LoginForm() {
   const { register, handleSubmit, formState, watch, reset } = useForm();
   const { errors } = formState;
   const [isOpen, setIsOpen] = useState(true);
+  const [message, setMessage] = useState("Login");
+  const [isDisabled, setIsDisabled] = useState(false);
+  const router = useRouter();
 
   const password = watch("password", "");
 
@@ -37,8 +45,38 @@ export default function LoginForm() {
     },
   };
 
-  const handleOnSubmit = (formData) => {
-    console.log(formData);
+  const handleOnSubmit = async (formData) => {
+    setIsDisabled(true);
+    const { data, error } = await authClient.signIn.email(
+      {
+        email: formData.email,
+        password: formData.password,
+        rememberMe: false,
+      },
+      {
+         onRequest: (ctx) => {
+          setMessage("User logging...");
+        },
+        onSuccess: (ctx) => {
+          setMessage("User Successfully logged in!");
+          toast.success("User Successfully Logged in!");
+          setTimeout(() => {
+            router.push("/");
+            setMessage("Login");
+            setIsDisabled(false);
+          }, 3000);
+        },
+        onError: (ctx) => {
+          setMessage("Something Went Wrong!");
+          toast.danger(ctx.error.message);
+          setTimeout(() => {
+            setMessage("Login");
+            setIsDisabled(false);
+          }, 3000);
+        },
+      },
+    );
+    console.log({data, error});
   };
   return (
     <div className="border min-h-screen container mx-auto flex justify-center items-center bg-slate-200">
@@ -52,7 +90,9 @@ export default function LoginForm() {
             Start managing your study resources, notes, and library access in
             one place.
           </p>
-          <h1 className="font-bold text-xl xs:text-2xl lg:text-3xl text-green-700">Login Form</h1>
+          <h1 className="font-bold text-xl xs:text-2xl lg:text-3xl text-green-700">
+            Login Form
+          </h1>
         </div>
         <div className="max-w-xs w-full xs:max-w-md p-4 bg-white rounded-xs shadow-xs flex flex-col gap-2">
           <form
@@ -65,7 +105,7 @@ export default function LoginForm() {
               </label>
               <div className="relative">
                 <input
-                  className={`border px-6 py-1 rounded-xs font-semibold outline-green-500 w-full ${errors.username && `border-red-500`}`}
+                  className={`border px-6 py-1 rounded-xs font-semibold outline-green-500 w-full ${errors.email && `border-red-500`}`}
                   type="email"
                   id="email"
                   {...register("email", {
@@ -95,7 +135,7 @@ export default function LoginForm() {
               </label>
               <div className="relative">
                 <input
-                  className="border px-6 py-1 rounded-xs font-semibold outline-green-500 w-full"
+                  className={`border px-6 py-1 rounded-xs font-semibold outline-green-500 w-full ${errors.password && `border-red-500`}`}
                   type={isOpen ? "password" : "text"}
                   id="password"
                   {...register("password", passwordRules)}
@@ -176,10 +216,11 @@ export default function LoginForm() {
                   onClick={() => reset()}
                 />
               </div>
-              <div className="flex items-center justify-center w-full bg-green-500 px-2 py-1 rounded-xs gap-1 font-bold text-white cursor-pointer">
+              <div className={`flex items-center justify-center w-full bg-green-500 px-2 py-1 rounded-xs gap-1 font-bold text-white cursor-pointer ${isDisabled && `bg-red-500`}`}>
                 <input
                   type="submit"
-                  value="Create Account"
+                  value={message}
+                  disabled={isDisabled}
                   className="cursor-pointer"
                 />
               </div>
@@ -188,6 +229,15 @@ export default function LoginForm() {
           <Button className="w-full rounded-xs" variant="outline">
             <Icon icon="devicon:google" />
             Sign Up With Google
+          </Button>
+          <Button variant="outline" className="rounded-xs w-full">
+            <Link
+              href={"/register"}
+              className="flex items-center gap-2 font-bold text-green-700"
+            >
+              <span>Go To Register Page</span>
+              <GoArrowRight />
+            </Link>
           </Button>
         </div>
       </div>
