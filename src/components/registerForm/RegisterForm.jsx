@@ -1,6 +1,6 @@
 "use client";
 
-import { toast } from '@heroui/react';
+import { toast } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@heroui/react";
@@ -79,6 +79,11 @@ export default function RegisterForm() {
       },
     );
     reset();
+  };
+  const handleGoogleSignin = async () => {
+    const data = await authClient.signIn.social({
+      provider: "google",
+    });
   };
   return (
     <div className="border min-h-screen container mx-auto flex justify-center items-center bg-slate-200">
@@ -268,7 +273,9 @@ export default function RegisterForm() {
                   onClick={() => reset()}
                 />
               </div>
-              <div className={`flex items-center justify-center w-full bg-green-500 px-2 py-1 rounded-xs gap-1 font-bold text-white cursor-pointer ${isDisabled && `bg-red-500`}`}>
+              <div
+                className={`flex items-center justify-center w-full bg-green-500 px-2 py-1 rounded-xs gap-1 font-bold text-white cursor-pointer ${isDisabled && `bg-red-500`}`}
+              >
                 <input
                   type="submit"
                   value={message}
@@ -278,9 +285,13 @@ export default function RegisterForm() {
               </div>
             </div>
           </form>
-          <Button className="w-full rounded-xs" variant="outline">
+          <Button
+            className="w-full rounded-xs"
+            variant="outline"
+            onClick={handleGoogleSignin}
+          >
             <Icon icon="devicon:google" />
-            Sign Up With Google
+            Sign In With Google
           </Button>
           <Button variant="outline" className="rounded-xs w-full">
             <Link

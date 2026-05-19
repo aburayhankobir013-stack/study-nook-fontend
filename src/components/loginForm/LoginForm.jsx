@@ -76,8 +76,15 @@ export default function LoginForm() {
         },
       },
     );
-    console.log({data, error});
+    reset();
   };
+
+  const handleGoogleSignin = async () => {
+    const data = await authClient.signIn.social({
+      provider: "google",
+    });
+  };
+
   return (
     <div className="border min-h-screen container mx-auto flex justify-center items-center bg-slate-200">
       <div className="flex flex-col items-center gap-5">
@@ -226,9 +233,9 @@ export default function LoginForm() {
               </div>
             </div>
           </form>
-          <Button className="w-full rounded-xs" variant="outline">
+          <Button className="w-full rounded-xs" variant="outline" onClick={handleGoogleSignin}>
             <Icon icon="devicon:google" />
-            Sign Up With Google
+            Sign In With Google
           </Button>
           <Button variant="outline" className="rounded-xs w-full">
             <Link
