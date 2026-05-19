@@ -2,6 +2,7 @@ import LiveMessage from "@/components/liveMessage/LiveMessage";
 import HeroSection from "@/components/heroSection/HeroSection";
 import CtaSection from "@/components/ctaSection/CtaSection";
 import WhyStudyNook from "@/components/whyStudyNook/WhyStudyNook";
+import HowItWork from "@/components/howItWork/HowItWork";
 
 export default function HomePage () {
   return (
@@ -17,6 +18,10 @@ export default function HomePage () {
       <>
         {/* Why study nook */}
         <WhyStudyNook />
+      </>
+      <>
+        {/* How it work */}
+        <HowItWork />
       </>
       <>
         {/* CTA section */}
