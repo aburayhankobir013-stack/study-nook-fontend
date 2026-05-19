@@ -3,8 +3,6 @@ import { FaCopyright, FaFacebook, FaGithub, FaTwitterSquare } from "react-icons/
 import { FaSquareYoutube } from "react-icons/fa6";
 import { GiOpenBook } from "react-icons/gi";
 
-
-
 export default function Footer () {
   return (
    <div className="container mx-auto bg-black text-white items-center p-4 flex flex-col gap-5">
@@ -27,7 +25,7 @@ export default function Footer () {
           <li>Location: Dhaka, Bangladesh</li>
         </ul>
         <ul className="flex flex-col gap-2 items-center md:items-start">
-          <h1 className="text-lg font-bold text-green-500">Social media section</h1>
+          <h1 className="text-lg font-bold text-green-500">Social Media Section</h1>
           <li className="flex items-center gap-1">
             <FaFacebook />
             <span>Facebook</span>
