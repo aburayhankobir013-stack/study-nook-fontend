@@ -89,7 +89,7 @@ export default function RegisterForm() {
     <div className="border min-h-screen container mx-auto flex justify-center items-center bg-slate-200">
       <div className="flex flex-col items-center gap-5">
         <div className="flex flex-col items-center text-center gap-2 px-4">
-          <GiOpenBook size={50} />
+          <GiOpenBook size={50} className="text-green-500"/>
           <h1 className="font-bold text-xl xs:text-2xl lg:text-3xl bg-linear-to-r from-green-600 to-indigo-600 bg-clip-text text-transparent">
             Join Study Nook
           </h1>
