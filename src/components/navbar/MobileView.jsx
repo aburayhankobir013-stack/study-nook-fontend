@@ -1,14 +1,12 @@
-import { useState } from "react";
 import NavLink from "../navlink/NavLink";
 import { Avatar, Button } from "@heroui/react";
 import Link from "next/link";
 
-export default function MobileView() {
-  const [isSession, setIsSession] = useState(true);
+export default function MobileView({session, handleSignOut}) {
   return (
     <div className="border absolute bg-white w-full flex flex-col items-center gap-2 p-2 z-50 md:hidden">
       {/* Main container */}
-      {isSession ? (
+      {session ? (
         <>
           <ul className="flex flex-col items-center gap-1">
             <li>
@@ -41,18 +39,18 @@ export default function MobileView() {
         </>
       )}
       <div>
-        {isSession ? (
+        {session ? (
           <>
             <div className="flex flex-col items-center gap-1"> 
               <Avatar>
                 <Avatar.Image
-                  alt="John Doe"
-                  src="https://img.heroui.chat/image/avatar?w=400&h=400&u=3"
+                  alt={session?.user.name}
+                  src={session?.user.image}
                 />
                 <Avatar.Fallback>JD</Avatar.Fallback>
               </Avatar>
-              <h1 className="font-semibold text-green-500">Abu Rayhan Kobir</h1>
-              <Button variant="outline" className="rounded-xs px-2 py-1 font-bold bg-green-500 text-white">Logout</Button>
+              <h1 className="font-semibold text-green-500">{`Hi, ${session?.user.name}`}</h1>
+              <Button variant="outline" className="rounded-xs px-2 py-1 font-bold bg-green-500 text-white" onClick={handleSignOut}>Logout</Button>
             </div>
             
           </>
