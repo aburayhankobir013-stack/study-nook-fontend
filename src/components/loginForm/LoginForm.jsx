@@ -1,6 +1,6 @@
 "use client";
 
-import { toast } from '@heroui/react';
+import { toast } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@heroui/react";
 import { Icon } from "@iconify/react";
@@ -54,7 +54,7 @@ export default function LoginForm() {
         rememberMe: false,
       },
       {
-         onRequest: (ctx) => {
+        onRequest: (ctx) => {
           setMessage("User logging...");
         },
         onSuccess: (ctx) => {
@@ -76,20 +76,33 @@ export default function LoginForm() {
         },
       },
     );
+    const { data: tokenData, tokenError } = await authClient.token();
+    if (tokenError) {
+      // handle error
+    }
+    if (data) {
+      const jwtToken = tokenData.token;
+      console.log(jwtToken);
+      // Use this token for authenticated requests to external services
+    }
     reset();
   };
 
   const handleGoogleSignin = async () => {
-    const data = await authClient.signIn.social({
-      provider: "google",
-    });
+    try {
+      const data = await authClient.signIn.social({
+        provider: "google",
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
-    <div className="border min-h-screen container mx-auto flex justify-center items-center bg-slate-200">
+    <div className="border min-h-screen container mx-auto flex justify-center items-center bg-green-100">
       <div className="flex flex-col items-center gap-5">
         <div className="flex flex-col items-center text-center gap-2 px-4">
-          <GiOpenBook size={50} className="text-green-500"/>
+          <GiOpenBook size={50} className="text-green-500" />
           <h1 className="font-bold text-xl xs:text-2xl lg:text-3xl bg-linear-to-r from-green-600 to-indigo-600 bg-clip-text text-transparent">
             Join Study Nook
           </h1>
@@ -101,7 +114,7 @@ export default function LoginForm() {
             Login Form
           </h1>
         </div>
-        <div className="max-w-xs w-full xs:max-w-md p-4 bg-white rounded-xs shadow-xs flex flex-col gap-2">
+        <div className="max-w-xs w-full xs:max-w-md p-4 bg-white rounded-xs shadow-xs shadow-green-500 flex flex-col gap-2">
           <form
             className="flex flex-col gap-2"
             onSubmit={handleSubmit(handleOnSubmit)}
@@ -223,7 +236,9 @@ export default function LoginForm() {
                   onClick={() => reset()}
                 />
               </div>
-              <div className={`flex items-center justify-center w-full bg-green-500 px-2 py-1 rounded-xs gap-1 font-bold text-white cursor-pointer ${isDisabled && `bg-red-500`}`}>
+              <div
+                className={`flex items-center justify-center w-full bg-green-500 px-2 py-1 rounded-xs gap-1 font-bold text-white cursor-pointer ${isDisabled && `bg-red-500`}`}
+              >
                 <input
                   type="submit"
                   value={message}
@@ -233,7 +248,11 @@ export default function LoginForm() {
               </div>
             </div>
           </form>
-          <Button className="w-full rounded-xs" variant="outline" onClick={handleGoogleSignin}>
+          <Button
+            className="w-full rounded-xs"
+            variant="outline"
+            onClick={handleGoogleSignin}
+          >
             <Icon icon="devicon:google" />
             Sign In With Google
           </Button>

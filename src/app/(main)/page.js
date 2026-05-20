@@ -16,6 +16,9 @@ export default function HomePage () {
         <HeroSection />
       </>
       <>
+        {/* Available rooms section */}
+      </>
+      <>
         {/* Why study nook */}
         <WhyStudyNook />
       </>
