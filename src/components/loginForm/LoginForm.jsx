@@ -76,15 +76,6 @@ export default function LoginForm() {
         },
       },
     );
-    const { data: tokenData, tokenError } = await authClient.token();
-    if (tokenError) {
-      // handle error
-    }
-    if (data) {
-      const jwtToken = tokenData.token;
-      console.log(jwtToken);
-      // Use this token for authenticated requests to external services
-    }
     reset();
   };
 

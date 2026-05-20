@@ -6,14 +6,18 @@ import { jwt } from "better-auth/plugins";
 const client = new MongoClient(process.env.MONGODB_URI);
 const db = client.db("study-nook-userDB");
 
+await client.connect();
+
 export const auth = betterAuth({
   database: mongodbAdapter(db, {
     client,
   }),
+
   // Email and password authentication
   emailAndPassword: {
     enabled: true,
   },
+
   // Google authentication
   socialProviders: {
     google: {
@@ -22,6 +26,8 @@ export const auth = betterAuth({
     },
   },
   plugins: [jwt()],
+
+  // JWT token set into cookies
   session: {
     cookieCache: {
       enabled: true,
