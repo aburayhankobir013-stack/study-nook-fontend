@@ -48,7 +48,7 @@ export default function RegisterForm() {
 
   const handleOnSubmit = async (formData) => {
     setIsDisabled(true);
-    const { data, error } = await authClient.signUp.email(
+    await authClient.signUp.email(
       {
         email: formData.email,
         password: formData.password,
@@ -81,13 +81,9 @@ export default function RegisterForm() {
     reset();
   };
   const handleGoogleSignin = async () => {
-    try {
-      const data = await authClient.signIn.social({
-        provider: "google",
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    await authClient.signIn.social({
+      provider: "google",
+    });
   };
   return (
     <div className="border min-h-screen container mx-auto flex justify-center items-center bg-green-100">

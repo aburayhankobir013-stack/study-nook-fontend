@@ -47,7 +47,7 @@ export default function LoginForm() {
 
   const handleOnSubmit = async (formData) => {
     setIsDisabled(true);
-    const { data, error } = await authClient.signIn.email(
+    await authClient.signIn.email(
       {
         email: formData.email,
         password: formData.password,
@@ -80,13 +80,9 @@ export default function LoginForm() {
   };
 
   const handleGoogleSignin = async () => {
-    try {
-      const data = await authClient.signIn.social({
+      await authClient.signIn.social({
         provider: "google",
       });
-    } catch (error) {
-      console.error(error);
-    }
   };
 
   return (

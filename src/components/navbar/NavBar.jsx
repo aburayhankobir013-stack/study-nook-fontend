@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 export default function NavBar() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const { data: session, isPending, error, refetch } = authClient.useSession();
+  const { data: session } = authClient.useSession();
   const handleSignOut = async () => {
     await authClient.signOut({
       fetchOptions: {
