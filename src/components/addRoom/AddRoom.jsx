@@ -1,13 +1,17 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { GiOpenBook } from "react-icons/gi";
+import { toast } from "@heroui/react";
 
 export default function AddRoom() {
   const { register, handleSubmit, formState, reset, watch, setValue } =
     useForm();
+  const [message, setMessage] = useState("Publish Room");
+  const [isDisabled, setIsDisabled] = useState(false);
   const { errors } = formState;
 
   const imageUrl = watch("image_url");
@@ -29,12 +33,46 @@ export default function AddRoom() {
       setValue("image_url", fallBackImage);
     }
   }, [imageUrl]);
-
-  const handleOnSubmit = (formData) => {
-    console.log("I am here!");
-    console.log(formData);
+  const { data: session } = authClient.useSession();
+  const handleOnSubmit = async (formData) => {
+    setIsDisabled(true);
+    const { name, email, image } = session.user;
+    const roomData = {
+      ...formData,
+      total_booked: 0,
+      createdDate: new Date(),
+      user: {
+        name,
+        email,
+        image,
+      },
+    };
+    try {
+      setMessage("Publishing room...");
+      const response = await fetch(`http://localhost:5000/add_room`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(roomData),
+      });
+      const data = await response.json();
+      if (data.success) {
+        setMessage(data.message);
+        toast.success(data.message);
+        setTimeout(() => {
+          setMessage("Publish Room");
+          setIsDisabled(false);
+        }, 3000);
+      }
+    } catch (error) {
+      setMessage("Publish Room");
+      toast.error("Failed to publish room");
+      setIsDisabled(false);
+    }
+    reset();
   };
-  
+
   return (
     <div className="min-h-screen container mx-auto border flex flex-col justify-center items-center bg-green-100 p-4 gap-4">
       {/* Main container */}
@@ -290,8 +328,9 @@ export default function AddRoom() {
         <div>
           <input
             type="submit"
-            value="Publice Room"
-            className="bg-green-500 shadow-xs hover:shadow-md shadow-green-300 w-full px-2 py-1 font-bold text-white rounded-xs cursor-pointer"
+            value={message}
+            disabled={isDisabled}
+            className={`bg-green-500 shadow-xs hover:shadow-md shadow-green-300 w-full px-2 py-1 font-bold text-white rounded-xs cursor-pointer ${isDisabled && `bg-red-500`}`}
           />
         </div>
       </form>
