@@ -7,6 +7,7 @@ import { TbBrandBooking } from "react-icons/tb";
 
 export default function Card({ room }) {
   const {
+    _id,
     room_name,
     description,
     image_url,
@@ -53,7 +54,7 @@ export default function Card({ room }) {
         </div>
       </div>
       <div>
-        <Link href={"#"}>
+        <Link href={`/room_details/${_id}`}>
           <Button variant="outline" className="rounded-xs w-full font-bold bg-green-200 hover:bg-green-300 shadow-xs hover:shadow-md shadow-green-300 text-green-950">View Details</Button>
         </Link>
       </div>

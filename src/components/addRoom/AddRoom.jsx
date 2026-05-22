@@ -6,12 +6,14 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { GiOpenBook } from "react-icons/gi";
 import { toast } from "@heroui/react";
+import { useRouter } from "next/navigation";
 
 export default function AddRoom() {
   const { register, handleSubmit, formState, reset, watch, setValue } =
     useForm();
   const [message, setMessage] = useState("Publish Room");
   const [isDisabled, setIsDisabled] = useState(false);
+  const router = useRouter();
   const { errors } = formState;
 
   const imageUrl = watch("image_url");
@@ -61,6 +63,7 @@ export default function AddRoom() {
         setMessage(data.message);
         toast.success(data.message);
         setTimeout(() => {
+          router.push("/my_listings");
           setMessage("Publish Room");
           setIsDisabled(false);
         }, 3000);

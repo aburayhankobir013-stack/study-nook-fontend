@@ -17,7 +17,7 @@ export default async function HomeCardContainer() {
             Hand-picked rooms recently added to Study Nook
           </p>
         </div>
-        <Link href={"/add_room"}>
+        <Link href={"/rooms"}>
           <Button
             variant="outline"
             className="rounded-xs bg-green-500 text-white font-bold"
