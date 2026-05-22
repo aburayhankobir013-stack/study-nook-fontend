@@ -1,11 +1,20 @@
+"use client";
+
 import { Avatar, Button } from "@heroui/react";
 import Image from "next/image";
+import { FaUserEdit } from "react-icons/fa";
 import { GiFloorHatch } from "react-icons/gi";
 import { GrGroup } from "react-icons/gr";
 import { IoBookmarks } from "react-icons/io5";
+import { MdDelete } from "react-icons/md";
 import { TbBrandBooking } from "react-icons/tb";
+import UpdateDetails from "./UpdateDetails";
+import {useOverlayState} from "@heroui/react";
 
-export default function RoomDetails({ room }) {
+export default function RoomDetails({ room, session }) {
+  const state = useOverlayState({
+    defaultOpen: false,
+  });
   const {
     room_name,
     description,
@@ -18,13 +27,16 @@ export default function RoomDetails({ room }) {
     createdDate,
     user,
   } = room;
+
   const { name, email, image } = user;
+  const {email: sessionEmail} = session.user;
+    
   return (
     <div className="container mx-auto border p-4 bg-green-100">
-      <div className="">
+      <div>
         <div className="flex flex-col gap-2 md:flex-row">
           {/* Top section */}
-          <div className="p-4 border bg-white flex flex-col gap-2 md:flex-1 shadow-xs shadow-green-500">
+          <div className="p-4 border bg-white flex flex-col gap-2 md:flex-1 shadow-xs shadow-green-500 rounded-xs">
             <figure className="relative w-full h-50 xs:h-75">
               <Image
                 src={image_url}
@@ -61,7 +73,7 @@ export default function RoomDetails({ room }) {
             </div>
           </div>
           <div className="flex flex-col gap-2 md:flex-1">
-            <div className="border flex flex-col gap-2 p-4 bg-white shadow-xs shadow-green-500">
+            <div className="border flex flex-col gap-2 p-4 bg-white shadow-xs shadow-green-500 rounded-xs">
               <h1 className="font-bold text-lg text-green-950">
                 ${rate} Per Hour
               </h1>
@@ -85,6 +97,22 @@ export default function RoomDetails({ room }) {
                   </span>
                 </div>
               </div>
+              {
+                sessionEmail === email
+                &&
+                <>
+                  <div className="flex items-center gap-2">
+                    <Button variant="outline" className="rounded-xs flex-1 font-bold bg-green-500 text-white" onPress={state.open}>
+                      <FaUserEdit />
+                      <span>Edit</span>
+                    </Button>
+                    <Button variant="outline" className="rounded-xs flex-1 bg-red-500 text-white font-bold">
+                      <MdDelete />
+                      <span>Delete</span>
+                    </Button>
+                  </div>
+                </>
+              }
               <Button
                 variant="outline"
                 className="rounded-xs w-full bg-green-500 font-bold text-white"
@@ -93,7 +121,7 @@ export default function RoomDetails({ room }) {
                 <span>Book Now</span>
               </Button>
             </div>
-            <div className="border flex flex-col items-center gap-2 p-4 bg-green-50 flex-1 shadow-xs shadow-green-500">
+            <div className="border flex flex-col items-center gap-2 p-4 bg-green-50 flex-1 shadow-xs shadow-green-500 rounded-xs">
               <h1 className="font-bold text-green-950">LISTED BY</h1>
               <div className="flex flex-col items-center gap-2">
                 <Avatar>
@@ -109,6 +137,7 @@ export default function RoomDetails({ room }) {
           </div>
         </div>
       </div>
+      <UpdateDetails state = {state} session = {session} room = {room}/>
     </div>
   );
 }
