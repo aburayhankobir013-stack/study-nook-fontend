@@ -7,7 +7,7 @@ import { GiOpenBook } from "react-icons/gi";
 import { toast } from "@heroui/react";
 import { useRouter } from "next/navigation";
 
-export default function UpdateDetails({ state, session, room }) {
+export default function UpdateDetails({ updateState, session, room }) {
   const {
     _id,
     room_name,
@@ -92,10 +92,10 @@ export default function UpdateDetails({ state, session, room }) {
     }
   };
   return (
-    <Modal isOpen={state.isOpen} onOpenChange={state.setOpen}>
+    <Modal isOpen={updateState.isOpen} onOpenChange={updateState.setOpen}>  
       <Modal.Backdrop>
         <Modal.Container>
-          <Modal.Dialog className="rounded-xs p-0">
+          <Modal.Dialog className="rounded-xs p-0 w-full xs:max-w-md md:max-w-lg lg:max-w-xl">
             <Modal.CloseTrigger />
             <Modal.Body>
               <div className="flex flex-col justify-center items-center bg-green-100 p-4 gap-4">

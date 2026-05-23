@@ -32,7 +32,8 @@ export default async function MyListingsPage() {
             Rooms you currently host Study Nook
           </p>
         </div>
-        <Link href={"/add_room"}>
+        <div className="flex flex-col items-center gap-2">
+          <Link href={"/add_room"}>
           <Button
             variant="outline"
             className="rounded-xs bg-green-500 text-white font-bold"
@@ -41,6 +42,8 @@ export default async function MyListingsPage() {
             <span>Add Room</span>
           </Button>
         </Link>
+        <span className="font-bold text-lg text-green-950">You are added {my_listings.length} rooms</span>
+        </div>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
         {my_listings.map((room) => (

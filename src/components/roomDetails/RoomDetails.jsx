@@ -10,12 +10,17 @@ import { MdDelete } from "react-icons/md";
 import { TbBrandBooking } from "react-icons/tb";
 import UpdateDetails from "./UpdateDetails";
 import {useOverlayState} from "@heroui/react";
+import DeleteRoom from "./DeleteRoom";
 
 export default function RoomDetails({ room, session }) {
-  const state = useOverlayState({
+  const updateState = useOverlayState({
+    defaultOpen: false,
+  });
+  const deleteState = useOverlayState({
     defaultOpen: false,
   });
   const {
+    _id,
     room_name,
     description,
     image_url,
@@ -102,11 +107,11 @@ export default function RoomDetails({ room, session }) {
                 &&
                 <>
                   <div className="flex items-center gap-2">
-                    <Button variant="outline" className="rounded-xs flex-1 font-bold bg-green-500 text-white" onPress={state.open}>
+                    <Button variant="outline" className="rounded-xs flex-1 font-bold bg-green-500 text-white" onPress={updateState.open}>
                       <FaUserEdit />
                       <span>Edit</span>
                     </Button>
-                    <Button variant="outline" className="rounded-xs flex-1 bg-red-500 text-white font-bold">
+                    <Button variant="outline" className="rounded-xs flex-1 bg-red-500 text-white font-bold" onPress={deleteState.open}>
                       <MdDelete />
                       <span>Delete</span>
                     </Button>
@@ -137,7 +142,8 @@ export default function RoomDetails({ room, session }) {
           </div>
         </div>
       </div>
-      <UpdateDetails state = {state} session = {session} room = {room}/>
+      <UpdateDetails updateState = {updateState} session = {session} room = {room}/>
+      <DeleteRoom deleteState = {deleteState} details = {{_id, image_url, room_name}}/>
     </div>
   );
 }
