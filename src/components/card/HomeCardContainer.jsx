@@ -4,7 +4,7 @@ import Link from "next/link";
 import { GoPlus } from "react-icons/go";
 
 export default async function HomeCardContainer() {
-  const response = await fetch(`http://localhost:5000`);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}`);
   const limitedRooms = await response.json();
   return (
     <div className="container mx-auto border p-4 bg-green-100">

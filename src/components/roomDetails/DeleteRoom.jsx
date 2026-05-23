@@ -16,7 +16,7 @@ export default function DeleteRoom({ deleteState, details }) {
     setIsDisabled(true);
     setMessage("Deleting permanently...");
     try {
-      const response = await fetch(`http://localhost:5000/room_details/${_id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/room_details/${_id}`, {
         method: "DELETE",
       });
       const result = await response.json();

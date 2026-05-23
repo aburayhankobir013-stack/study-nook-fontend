@@ -38,7 +38,7 @@ export default function Card({ room }) {
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1 border px-2 py-0.5 rounded-xs bg-green-100">
             <GiFloorHatch size={15}/>
-            <span className="font-bold text-green-950 text-xs xs:text-base">{floor} Floor</span>
+            <span className="font-bold text-green-950 text-xs xs:text-base">{floor}th Floor</span>
           </div>
           <div className="flex items-center gap-1 border px-2 py-0.5 rounded-xs bg-green-100">
             <GrGroup size={15}/>

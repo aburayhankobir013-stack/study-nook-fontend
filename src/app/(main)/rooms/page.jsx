@@ -2,7 +2,7 @@ import Card from "@/components/card/Card";
 
 
 export default async function RoomsPage () {
-  const response = await fetch(`http://localhost:5000/rooms`);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/rooms`);
   const rooms = await response.json();
   return (
     <div className="container mx-auto border p-4 bg-green-100">

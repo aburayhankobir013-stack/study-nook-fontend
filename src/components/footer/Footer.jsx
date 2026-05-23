@@ -51,7 +51,7 @@ export default function Footer () {
       <div className="flex items-center gap-2">
         {/* Copyright container */}
         <FaCopyright />
-        <span>2026 Study Nook. All rights reserved</span>
+        <span>{new Date().getFullYear()} Study Nook. All rights reserved</span>
       </div>
    </div>
   );

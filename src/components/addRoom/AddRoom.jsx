@@ -51,7 +51,7 @@ export default function AddRoom() {
     };
     try {
       setMessage("Publishing room...");
-      const response = await fetch(`http://localhost:5000/add_room`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/add_room`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -9,7 +9,7 @@ export default async function DetailsPage ({params}) {
       headers: await headers(),
     });
   
-  const response = await fetch(`http://localhost:5000/room_details/${roomId}`);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/room_details/${roomId}`);
   const room = await response.json();
   return (
     <RoomDetails room = {room} session = {session}/>

@@ -18,13 +18,21 @@ export default function UpdateDetails({ updateState, session, room }) {
     rate,
     anemities,
   } = room;
-  const data = { room_name, description, image_url, floor, capacity, rate, anemities };
+  const data = {
+    room_name,
+    description,
+    image_url,
+    floor,
+    capacity,
+    rate,
+    anemities,
+  };
   const { register, handleSubmit, formState, reset, watch, setValue } =
     useForm();
 
   useEffect(() => {
-  reset(data);
-}, [reset]);
+    reset(data);
+  }, [reset]);
 
   const [message, setMessage] = useState("Update Room");
   const [isDisabled, setIsDisabled] = useState(false);
@@ -50,9 +58,8 @@ export default function UpdateDetails({ updateState, session, room }) {
       setValue("image_url", fallBackImage);
     }
   }, [imageUrl]);
-  
+
   const handleOnSubmit = async (formData) => {
-    console.log(formData);
     setIsDisabled(true);
     const { name, email, image } = session.user;
     const roomData = {
@@ -67,32 +74,38 @@ export default function UpdateDetails({ updateState, session, room }) {
     };
     try {
       setMessage("Room updating...");
-      const response = await fetch(`http://localhost:5000/room_details/${_id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/room_details/${_id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(roomData),
         },
-        body: JSON.stringify(roomData),
-      });
+      );
       const data = await response.json();
-      if (data.success) {
-        setMessage(data.message);
-        toast.success(data.message);
-        setTimeout(() => {
-          router.push(`/room_details/${_id}`);
-          setMessage("Update Room");
-          setIsDisabled(false);
-          state.close();
-        }, 3000);
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.message);
       }
+
+      setMessage(data.message);
+      toast.success(data.message);
+      setTimeout(() => {
+        router.push(`/room_details/${_id}`);
+        setMessage("Update Room");
+        setIsDisabled(false);
+        updateState.close();
+      }, 3000);
     } catch (error) {
       setMessage("Update Room");
-      toast.error("Failed to publish room");
+      toast.danger(error.message);
       setIsDisabled(false);
     }
   };
   return (
-    <Modal isOpen={updateState.isOpen} onOpenChange={updateState.setOpen}>  
+    <Modal isOpen={updateState.isOpen} onOpenChange={updateState.setOpen}>
       <Modal.Backdrop>
         <Modal.Container>
           <Modal.Dialog className="rounded-xs p-0 w-full xs:max-w-md md:max-w-lg lg:max-w-xl">

@@ -10,7 +10,7 @@ export default async function MyListingsPage() {
     headers: await headers(),
   });
   const { email } = session.user;
-  const response = await fetch(`http://localhost:5000/my_listings`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/my_listings`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
