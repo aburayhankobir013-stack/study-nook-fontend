@@ -98,12 +98,17 @@ export default function UpdateDetails({ updateState, session, room }) {
         setIsDisabled(false);
         updateState.close();
       }, 3000);
+
     } catch (error) {
-      setMessage("Update Room");
+      setMessage(error.message);
       toast.danger(error.message);
-      setIsDisabled(false);
+      setTimeout(() => {
+        setMessage("Update Room");
+        setIsDisabled(false);
+      }, 3000); 
     }
   };
+  
   return (
     <Modal isOpen={updateState.isOpen} onOpenChange={updateState.setOpen}>
       <Modal.Backdrop>

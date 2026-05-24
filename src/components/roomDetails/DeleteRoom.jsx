@@ -1,5 +1,5 @@
 "use client";
-import { Button, Modal } from "@heroui/react";
+import { Button, Modal, toast } from "@heroui/react";
 import { RiDeleteBin6Line, RiSkull2Fill } from "react-icons/ri";
 import Image from "next/image";
 import { useState } from "react";
@@ -19,9 +19,15 @@ export default function DeleteRoom({ deleteState, details }) {
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/room_details/${_id}`, {
         method: "DELETE",
       });
-      const result = await response.json();
-      if (result.success) {
-        setMessage(result.message);
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.message);
+      }
+
+      if (data.success) {
+        setMessage(data.message);
+        toast.success(data.message);
         setTimeout(() => {
           router.push("/my_listings");
           setMessage("Permanently Delete");
@@ -29,13 +35,12 @@ export default function DeleteRoom({ deleteState, details }) {
         }, 3000);
       }
     } catch (error) {
-      if (result.success) {
-        setMessage(result.message);
+      setMessage(error.message);
+      toast.danger(error.message);
         setTimeout (() => {
           setMessage("Permanently Delete");
           setIsDisabled(false);
         }, 3000);
-      }
     }
   };
   return (

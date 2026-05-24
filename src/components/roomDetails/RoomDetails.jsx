@@ -11,12 +11,16 @@ import { TbBrandBooking } from "react-icons/tb";
 import UpdateDetails from "./UpdateDetails";
 import {useOverlayState} from "@heroui/react";
 import DeleteRoom from "./DeleteRoom";
+import BookingForm from "./BookingForm";
 
 export default function RoomDetails({ room, session }) {
   const updateState = useOverlayState({
     defaultOpen: false,
   });
   const deleteState = useOverlayState({
+    defaultOpen: false,
+  });
+  const bookingState = useOverlayState({
     defaultOpen: false,
   });
   const {
@@ -121,7 +125,7 @@ export default function RoomDetails({ room, session }) {
               <Button
                 variant="outline"
                 className="rounded-xs w-full bg-green-500 font-bold text-white"
-              >
+              onPress={bookingState.open}>
                 <IoBookmarks />
                 <span>Book Now</span>
               </Button>
@@ -142,6 +146,7 @@ export default function RoomDetails({ room, session }) {
           </div>
         </div>
       </div>
+      <BookingForm bookingState = {bookingState} details = {{_id, rate, room_name, image_url, sessionEmail}}/>
       <UpdateDetails updateState = {updateState} session = {session} room = {room}/>
       <DeleteRoom deleteState = {deleteState} details = {{_id, image_url, room_name}}/>
     </div>

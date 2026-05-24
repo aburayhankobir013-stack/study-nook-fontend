@@ -1,7 +1,6 @@
 import { Button } from "@heroui/react";
 import Card from "./Card";
 import Link from "next/link";
-import { GoPlus } from "react-icons/go";
 
 export default async function HomeCardContainer() {
   const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}`);
@@ -22,8 +21,7 @@ export default async function HomeCardContainer() {
             variant="outline"
             className="rounded-xs bg-green-500 text-white font-bold"
           >
-            <GoPlus />
-            <span>Add Room</span>
+            <span>All Rooms</span>
           </Button>
         </Link>
       </div>
