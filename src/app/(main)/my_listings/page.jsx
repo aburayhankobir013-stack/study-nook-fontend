@@ -5,6 +5,10 @@ import Link from "next/link";
 import { GoPlus } from "react-icons/go";
 import Card from "@/components/card/Card";
 
+export const metadata = {
+  title: "My Listings Page",
+};
+
 export default async function MyListingsPage() {
   const session = await auth.api.getSession({
     headers: await headers(),

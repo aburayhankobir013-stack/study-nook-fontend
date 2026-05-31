@@ -1,5 +1,9 @@
 import Card from "@/components/card/Card";
 
+export const metadata = {
+  title: "All Rooms Page",
+};
+
 export default async function RoomsPage() {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/rooms`,

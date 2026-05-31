@@ -2,6 +2,10 @@ import MyBookings from "@/components/myBookings/MyBookings";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 
+export const metadata = {
+  title: "My Booking Page",
+};
+
 export default async function MyBookingsPage() {
   const session = await auth.api.getSession({
     headers: await headers(),
