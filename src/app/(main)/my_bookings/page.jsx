@@ -13,7 +13,7 @@ export default async function MyBookingsPage() {
   if(all_bookings.length === 0) {
     return (
       <div className="min-h-screen container mx-auto border flex justify-center items-center bg-green-100">
-        <h1 className="text-xl text-red-500">No Bookings Available!</h1>
+        <h1 className="text-xl text-red-500">No Bookings Available Now!</h1>
       </div>
     );
   }

@@ -90,7 +90,7 @@ export default function RoomDetails({ room, session }) {
                 <div className="flex items-center gap-1 border px-2 py-0.5 rounded-xs bg-green-100">
                   <GiFloorHatch size={15} />
                   <span className="font-bold text-green-950 text-xs xs:text-base">
-                    {floor} Floor
+                    {floor}th Floor
                   </span>
                 </div>
                 <div className="flex items-center gap-1 border px-2 py-0.5 rounded-xs bg-green-100">

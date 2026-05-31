@@ -92,7 +92,7 @@ export default function BookingForm({ bookingState, details }) {
           setMessage("Confirme Booking");
           setIsDisabled(false);
           router.push("/my_bookings");
-        }, 3000);
+        }, 1000);
       }
     } catch (error) {
       setMessage("Confirme Booking");
